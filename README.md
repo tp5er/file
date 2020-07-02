@@ -1,9 +1,10 @@
-安装
+# 安装
+
 ~~~
 composer require tp5er/file dev-master
 ~~~
 
-文件上传
+# 文件上传
 
 ~~~
 $file = $_FILES['image'];
@@ -20,5 +21,63 @@ echo $info->getFilename();
 
 
 
+# 腾讯cos接入
 
+官方文档：https://cloud.tencent.com/document/product/436/12266
+
+包地址：https://packagist.org/packages/qcloud/cos-sdk-v5
+
+
+
+## 安装
+
+~~~
+composer require qcloud/cos-sdk-v5
+~~~
+
+## 接口实现类
+
+~~~
+<?php
+class Cos implements \tp5er\FileInterface
+{
+    public function save(&$file, &$fullname)
+    {
+		//初始化用户身份信息API密钥(secretId, secretKey)请参照  https://console.cloud.tencent.com/cam/capi
+        $secretId = "36位字符串";
+        $secretKey = "32位字符串";
+        
+        //设置bucket的区域, COS地域的简称请参照  https://cloud.tencent.com/document/product/436/6224
+        $bucket = "name-APPID";
+        $region = "地区";
+        
+        try{
+            $cosClient =  new \Qcloud\Cos\Client([
+                'region' => $region,
+                'schema' => 'https',
+                'credentials' => [
+                    'secretId' => $secretId,
+                    'secretKey' => $secretKey
+                ]
+            ]);
+            $key = $fullname;
+            $body = file_get_contents($file['tmp_name']);
+            $result = $cosClient->putObject(array('Bucket' => $bucket, 'Key' => $key, 'Body' => $body));
+            if (!isset($result['Location']) && !isset($result['Key'])){
+                trigger_error("upload write error");
+                return false;
+            }
+            return true;
+        }catch (Exception $exception){
+            throw  new  \Exception($exception);
+        }
+    }
+}
+~~~
+
+## 传入接口实现类实现上传功能
+
+~~~
+$info = (new \tp5er\FileApp(new \Cos()))->fileupload($file, $path);
+~~~
 
