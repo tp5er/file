@@ -12,9 +12,9 @@ class Local implements FileInterface
      * @param $fullname
      * @return bool
      */
-    public function save(&$file, &$fullname)
+    public function save(&$file, &$filename)
     {
-        $path = dirname($fullname);
+        $path = dirname($filename);
         if (false === $this->checkPath($path)) {
             trigger_error("directory {$path} creation failed");
             return false;
@@ -24,7 +24,7 @@ class Local implements FileInterface
             return false;
         }
         //io写入
-        if (!file_put_contents($fullname, file_get_contents($file['tmp_name'], FILE_APPEND))) {
+        if (!file_put_contents($filename, file_get_contents($file['tmp_name'], FILE_APPEND))) {
             trigger_error("upload write error");
             return false;
         }

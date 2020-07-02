@@ -30,7 +30,7 @@ class FileApp
      * @return bool|wImage
      */
     public function fileupload($file, $fullpath){
-        return (new File($file))->move($fullpath,$this->drive);
+        return (new File($file))->setDrive($this->drive)->move($fullpath);
     }
 
 }

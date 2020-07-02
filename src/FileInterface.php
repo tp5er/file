@@ -9,5 +9,5 @@ interface  FileInterface
      * @param $fullname
      * @return mixed
      */
-    public function save(&$file, &$fullname);
+    public function save(&$file, &$filename);
 }

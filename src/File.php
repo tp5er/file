@@ -12,18 +12,22 @@ class File
      * @var string 当前完整文件名
      */
     protected $filename;
-
     /**
      * @var array
      */
     protected $suffix = ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'];
 
     /**
+     * @var FileInterface|null
+     */
+    protected $drive = null;
+
+    /**
      * wImage constructor.
      * @param $file
      * @param string $mode
      */
-    public function __construct($file, $mode = 'r')
+    public function __construct($file)
     {
         if (is_array($file) && FileInfo::IsFileFuncArray($file)) {
             $this->info = $file;
@@ -32,11 +36,17 @@ class File
         $this->filename = $file;
     }
 
+    public function setDrive(FileInterface $interface)
+    {
+        $this->drive = $interface;
+        return $this;
+    }
+
     /**
      * @param $path
      * @return bool|wImage
      */
-    public function move($path, FileInterface $upload = null)
+    public function move($path)
     {
         //图片文件检查
         $this->check();
@@ -45,24 +55,26 @@ class File
         $saveName = FileInfo::buildFileName($this->getInfo('name'));
         $filename = $path . $saveName;
         // 调用接口save方法是实现io保存
-        if (!$upload->save($this->info, $filename)) {
+        if (!$this->drive->save($this->info, $filename)) {
             return false;
         }
-        $file = new self($filename);
+        $file = (new self($filename))->setDrive($this->drive)->setInfo($this->getInfo());
         return $file;
     }
 
     /**
      * @return mixed
      */
-    public function getFilename(){
+    public function getFilename()
+    {
         return FileInfo::FileBaseName($this->filename);
     }
 
     /**
      * @return mixed
      */
-    public function getExtension(){
+    public function getExtension()
+    {
         return FileInfo::FileExtension($this->filename);
     }
 
