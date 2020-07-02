@@ -1,0 +1,20 @@
+{
+  "name": "tp5er/file",
+  "description": "php file",
+  "license": "MIT",
+  "keywords": ["php", "file"],
+  "require": {
+    "php": ">=5.6.0"
+  },
+  "authors": [
+    {
+      "name": "tp5er",
+      "email": "tp5er@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "tp5er\\": "src/"
+    }
+  }
+}
