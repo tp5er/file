@@ -1,6 +1,6 @@
 {
   "name": "tp5er/file",
-  "description": "php file",
+  "description": "File processing",
   "license": "MIT",
   "keywords": ["php", "file"],
   "require": {
