@@ -12,9 +12,34 @@ class FileInfo
      */
     public static function FileSuffix($filename)
     {
-        return pathinfo($filename, PATHINFO_EXTENSION);
+        return self::PathInfo($filename,PATHINFO_EXTENSION);
     }
 
+    /**
+     * @return mixed
+     */
+    public static function FileBaseName($filename){
+        return self::PathInfo($filename,PATHINFO_BASENAME );
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function FileExtension($filename){
+        return self::PathInfo($filename,PATHINFO_EXTENSION  );
+    }
+
+    /**
+     * @param $filename
+     * @param null $options
+     * @return mixed
+     */
+    public static function PathInfo($filename, $options=null){
+        if (is_null($options)){
+            return pathinfo($filename);
+        }
+        return pathinfo($filename,$options);
+    }
     /**
      * @param $filename
      * @return mixed

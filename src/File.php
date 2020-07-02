@@ -2,9 +2,7 @@
 
 namespace tp5er;
 
-use SplFileObject;
-
-class File extends SplFileObject
+class File
 {
     /**
      * @var array 上传文件信息
@@ -31,8 +29,7 @@ class File extends SplFileObject
             $this->info = $file;
             $file = $file['tmp_name'];
         }
-        parent::__construct($file, $mode);
-        $this->filename = $this->getRealPath() ?: $this->getPathname();
+        $this->filename = $file;
     }
 
     /**
@@ -51,8 +48,22 @@ class File extends SplFileObject
         if (!$upload->save($this->info, $filename)) {
             return false;
         }
-        $file =new self($filename);
+        $file = new self($filename);
         return $file;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilename(){
+        return FileInfo::FileBaseName($this->filename);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtension(){
+        return FileInfo::FileExtension($this->filename);
     }
 
     /**
