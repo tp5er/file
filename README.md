@@ -8,7 +8,7 @@ composer require tp5er/file dev-master
 
 ~~~
 $file = $_FILES['image'];
-$path = ROOT_PATH . 'public' . DS . 'uploads';
+$path =  './uploads';
 $info = (new \tp5er\FileApp())->fileupload($file, $path);
 
 
