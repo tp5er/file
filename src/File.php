@@ -12,11 +12,11 @@ class File
      * @var string 当前完整文件名
      */
     protected $filename;
-    /**
-     * @var array
-     */
-    protected $suffix = ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'];
 
+    /**
+     * @var
+     */
+    protected $validate;
     /**
      * @var FileInterface|null
      */
@@ -36,6 +36,10 @@ class File
         $this->filename = $file;
     }
 
+    /**
+     * @param FileInterface $interface
+     * @return $this
+     */
     public function setDrive(FileInterface $interface)
     {
         $this->drive = $interface;
@@ -48,6 +52,12 @@ class File
      */
     public function move($path)
     {
+
+        //检查指定的文件是否是通过 HTTP POST
+        if (!is_uploaded_file($this->filename)) {
+            trigger_error("upload illegal files");
+            return false;
+        }
         //图片文件检查
         $this->check();
         // 文件保存命名规则
@@ -79,26 +89,64 @@ class File
     }
 
     /**
+     * @param $validate
+     * @return $this
+     */
+    public function validate($validate)
+    {
+        $this->validate = $validate;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
-    public function check()
+    public function check($rule = [])
     {
-        //检查指定的文件是否是通过 HTTP POST
-        if (!is_uploaded_file($this->filename)) {
-            trigger_error("upload illegal files");
+
+        $rule = $rule ?: $this->validate;
+
+        /* 检查文件大小 */
+        if (isset($rule['size']) && !$this->checkSize($rule['size'])) {
+            trigger_error("filesize not match");
             return false;
         }
         //检查文件 Mime 类型
-        if (!$this->checkMime()) {
+        if (isset($rule['type']) && !$this->checkMime($rule['type'])) {
+            trigger_error("extensions to upload is not allowed");
+            return false;
+        }
+        if (isset($rule['ext']) && !$this->checkExt($rule['ext'])) {
             trigger_error("extensions to upload is not allowed");
             return false;
         }
         //检查图像文件
         if (!$this->checkImg()) {
-            trigger_error("illegal wimage files");
+            trigger_error("illegal image files");
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param $size
+     * @return bool
+     */
+    protected function checkSize($size)
+    {
+        return $this->getInfo("size") <= $size;
+    }
+
+    /**
+     * @param $ext
+     * @return bool
+     */
+    protected function checkExt($ext)
+    {
+        if (is_string($ext)) {
+            $ext = explode(',', $ext);
+        }
+        return in_array(strtolower(FileInfo::FileSuffix($this->getInfo('name'))), $ext);
     }
 
     /**
@@ -106,9 +154,10 @@ class File
      */
     protected function checkImg()
     {
+
         $images = FileInfo::GetImageSize($this->filename);
-        $infosuffix = FileInfo::FileSuffix($this->getInfo('name'));
-        if (in_array($infosuffix, $this->suffix) || isset($images[2])) {
+
+        if (isset($images[2])) {
             return true;
         }
         return false;
@@ -117,11 +166,10 @@ class File
     /**
      * @return bool
      */
-    protected function checkMime()
+    protected function checkMime($mime)
     {
-        $infotype = $this->getInfo("type");
-        $systemtype = FileInfo::FileType($this->filename);
-        return strcmp($infotype, $systemtype) == 0 ? true : false;
+        $mime = is_string($mime) ? explode(',', $mime) : $mime;
+        return in_array(strtolower(FileInfo::FileType($this->filename)), $mime);
     }
 
     /**

@@ -17,6 +17,13 @@ echo $info->getExtension();
 
 //输出  ea307c4cdc7f7e91e8578caad1db1240.jpg
 echo $info->getFilename();
+
+~~~
+
+# 安全校验
+
+~~~
+$info = (new \tp5er\FileApp())->fileupload($file, $path,['type'=>"image/png",'size'=>15678,'ext'=>'jpg,png,gif']);
 ~~~
 
 

@@ -29,8 +29,8 @@ class FileApp
      * @param $fullpath
      * @return bool|wImage
      */
-    public function fileupload($file, $fullpath){
-        return (new File($file))->setDrive($this->drive)->move($fullpath);
+    public function fileupload($file, $fullpath,$rule=[]){
+        return (new File($file))->setDrive($this->drive)->validate($rule)->move($fullpath);
     }
 
 }
