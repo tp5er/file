@@ -55,9 +55,7 @@ class File
 
         //检查指定的文件是否是通过 HTTP POST
         if (!is_uploaded_file($this->filename)) {
-            new FileException("upload illegal files");
-//            trigger_error("upload illegal files");
-            return false;
+            return new FileException("upload illegal files");
         }
         //图片文件检查
         $this->check();
@@ -109,26 +107,18 @@ class File
 
         /* 检查文件大小 */
         if (isset($rule['size']) && !$this->checkSize($rule['size'])) {
-//            trigger_error("filesize not match");
-            new FileException("filesize not match");
-            return false;
+            return new FileException("filesize not match");
         }
         //检查文件 Mime 类型
         if (isset($rule['type']) && !$this->checkMime($rule['type'])) {
-//            trigger_error("mimetype to upload is not allowed");
-            new FileException("mimetype to upload is not allowed");
-            return false;
+            return new FileException("mimetype to upload is not allowed");
         }
         if (isset($rule['ext']) && !$this->checkExt($rule['ext'])) {
-            new FileException("extensions to upload is not allowed");
-//            trigger_error("extensions to upload is not allowed");
-            return false;
+            return new FileException("extensions to upload is not allowed");
         }
         //检查图像文件
         if (!$this->checkImg()) {
-            new FileException("illegal image files");
-//            trigger_error("illegal image files");
-            return false;
+            return new FileException("illegal image files");
         }
         return true;
     }

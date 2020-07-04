@@ -28,7 +28,25 @@ $info = (new \tp5er\FileApp())->fileupload($file, $path,['type'=>"image/png",'si
 
 
 
-# 腾讯cos接入
+# COS上传
+
+~~~
+//首先安装 composer require qcloud/cos-sdk-v5
+
+上传方法
+$info = (new \tp5er\FileApp(new \tp5er\drive\Cos([
+    'SecretId'=>'',
+    'SecretKey'=>"",
+    'bucket'=>"",
+    'region'=>''
+])))->fileupload($file, $path);
+~~~
+
+
+
+
+
+# 自定义上传驱动（COS）
 
 官方文档：https://cloud.tencent.com/document/product/436/12266
 

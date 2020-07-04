@@ -17,9 +17,7 @@ class Local implements FileInterface
     {
         $path = dirname($filename);
         if (false === $this->checkPath($path)) {
-            new FileException("directory {$path} creation failed");
-//            trigger_error("directory {$path} creation failed");
-            return false;
+           return  new FileException("directory {$path} creation failed");
         }
         if (!FileInfo::IsFileFuncArray($file)) {
             trigger_error($file);
@@ -27,10 +25,7 @@ class Local implements FileInterface
         }
         //io写入
         if (!file_put_contents($filename, file_get_contents($file['tmp_name'], FILE_APPEND))) {
-//            trigger_error("upload write error");
-            new FileException("upload write error");
-
-            return false;
+            return new FileException("upload write error");
         }
         return true;
     }
