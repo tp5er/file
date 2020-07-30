@@ -106,3 +106,18 @@ class Cos implements \tp5er\FileInterface
 $info = (new \tp5er\FileApp(new \Cos()))->fileupload($file, $path);
 ~~~
 
+
+
+# 官方sdk汇总
+
+## 阿里云oss
+
+https://help.aliyun.com/document_detail/85580.html
+
+## 七牛云
+
+https://developer.qiniu.com/kodo/sdk/1241/php
+
+## 京东云
+
+https://docs.jdcloud.com/cn/object-storage-service/sdk-php
