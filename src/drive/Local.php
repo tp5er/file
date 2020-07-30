@@ -20,13 +20,21 @@ class Local implements FileInterface
            return  new FileException("directory {$path} creation failed");
         }
         if (!FileInfo::IsFileFuncArray($file)) {
-            trigger_error($file);
-            return false;
+            //trigger_error($file);
+            //return false;
+            return  new FileException($file);
+           
         }
+        
         //io写入
         if (!file_put_contents($filename, file_get_contents($file['tmp_name'], FILE_APPEND))) {
             return new FileException("upload write error");
         }
+        //if (!move_uploaded_file($file['tmp_name'],$filename)) {
+        //    return new FileException("upload write error");
+        //}
+        
+        
         return true;
     }
 
