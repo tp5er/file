@@ -1,6 +1,6 @@
 {
   "name": "tp5er/file",
-  "description": "File processing",
+  "description": "一个可自定义扩展的文件上传类",
   "license": "MIT",
   "keywords": ["php", "file"],
   "require": {
