@@ -1,3 +1,4 @@
+
 > 没有依赖任何框架的函数，因此所有的框架基本都兼容
 >
 > 目前测试通过的框架thinkphp全家桶，laravel框架。
@@ -126,3 +127,8 @@ https://developer.qiniu.com/kodo/sdk/1241/php
 ## 京东云
 
 https://docs.jdcloud.com/cn/object-storage-service/sdk-php
+
+
+
+# 私密技术交流
+qq：1751212020
