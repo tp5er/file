@@ -130,5 +130,5 @@ https://docs.jdcloud.com/cn/object-storage-service/sdk-php
 
 
 
-# 私密技术交流
-qq：1751212020
+## 请私人助教：
+QQ：1751212020
