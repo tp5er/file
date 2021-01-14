@@ -128,7 +128,3 @@ https://developer.qiniu.com/kodo/sdk/1241/php
 
 https://docs.jdcloud.com/cn/object-storage-service/sdk-php
 
-
-
-## 请私人助教：
-QQ：1751212020
